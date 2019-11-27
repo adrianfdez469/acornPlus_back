@@ -43,7 +43,9 @@ module.exports.addMoneda = async (req, resp, next) => {
         // Buscando si exite una moneda con la misma abreviatura
         const existe = await NomMoneda.findOne({
             where:{
-                abreviatura: abreviatura
+                abreviatura: {
+                    [Op.iLike]: abreviatura
+                }
             }
         });
         
@@ -81,7 +83,9 @@ module.exports.updateMoneda = async (req, resp, next) => {
         const existe = await NomMoneda.findOne({
             where: {
                 [Op.and]: {
-                    abreviatura: abreviatura,
+                    abreviatura: {
+                        [Op.iLike]: abreviatura
+                    },
                     id: {
                         [Op.ne] : id
                     }                    

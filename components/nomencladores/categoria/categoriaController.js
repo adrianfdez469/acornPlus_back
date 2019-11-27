@@ -17,7 +17,9 @@ module.exports.addCategoria = async (req, resp, next) => {
     
         const categoria = await NomCategoria.findOne({
             where: {
-                nombre: nombre
+                nombre: {
+                    [Op.iLike]: nombre
+                }
             }
         });
     
@@ -121,7 +123,9 @@ module.exports.updateCategoria = async (req, resp, next) => {
         const categoria = await NomCategoria.findOne({
             where: {
                 [Op.and]: {
-                    nombre: nombre,
+                    nombre: {
+                        [Op.iLike]: nombre
+                    },
                     id: {
                         [Op.ne]: id
                     }

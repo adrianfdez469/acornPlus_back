@@ -2,18 +2,18 @@ const Op = require('sequelize').Op;
 
 const { validationResult } = require('express-validator');
 
-const NomTipoDescuento = require('./tipoDescuentoModel');
+const NomProveedor = require('./proveedorModel');
 const helpers = require('../../../helpers/helpers');
 
-module.exports.getTipodescuentos = async (req, resp, next) => {
+module.exports.getProveedores = async (req, resp, next) => {
     try{
         const { filters, orders, pagination } = req.body;
         const {start, limit} = pagination;
         
-        const filtros = helpers.getFiltros(filters, NomTipoDescuento.rawAttributes);
+        const filtros = helpers.getFiltros(filters, NomProveedor.rawAttributes);
         const ordersArr = helpers.getOrder(orders, 'createdAt');
     
-        const {rows, count} = await NomTipoDescuento.findAndCountAll({
+        const {rows, count} = await NomProveedor.findAndCountAll({
             order: ordersArr,
             where: {
                 [Op.and]: filtros
@@ -32,16 +32,15 @@ module.exports.getTipodescuentos = async (req, resp, next) => {
     }
 }
 
-module.exports.addTipodescuento = async (req, resp, next) => {
+module.exports.addProveedor = async (req, resp, next) => {
 
     try {
         const errors = validationResult(req);
         helpers.checkValidationResults(errors);
 
-        const {nombre, descuento} = req.body;
+        const {nombre, descripcion, telefono, correo, sitioweb} = req.body;
 
-        // Buscando si exite un tipo de descuento con el misma nombre
-        const existe = await NomTipoDescuento.findOne({
+        const existe = await NomProveedor.findOne({
             where:{
                 nombre: {
                     [Op.iLike]: nombre
@@ -49,32 +48,35 @@ module.exports.addTipodescuento = async (req, resp, next) => {
             }
         });
         
-        helpers.checkIfExist(existe, 'El tipo de descuento ya existe');
-        
-        const tipodescuento = await NomTipoDescuento.create({
+        helpers.checkIfExist(existe, 'El proveedor ya existe');
+
+        const proveedor = await NomProveedor.create({
             nombre: nombre,
-            descuento: descuento
+            descripcion: descripcion,
+            telefono: telefono,
+            correo: correo,
+            sitioweb: sitioweb
         });
 
         resp.status(201).json({
-            tipodescuento: tipodescuento
+            proveedor: proveedor
         });
 
     } catch(err){
-        return next(err);
+        next(err);
     }
 }
 
-module.exports.updateTipodescuento = async (req, resp, next) => {
+module.exports.updateProveedor = async (req, resp, next) => {
 
     try{
         const errors = validationResult(req);
         helpers.checkValidationResults(errors);
     
-        const {nombre, descuento, id} = req.body;
+        const {nombre, descripcion, telefono, correo, sitioweb, id} = req.body;
 
-        const existe = await NomTipoDescuento.findOne({
-            where: {
+        const existe = await NomProveedor.findOne({
+            where:{
                 [Op.and]: {
                     nombre: {
                         [Op.iLike]: nombre
@@ -86,13 +88,16 @@ module.exports.updateTipodescuento = async (req, resp, next) => {
             }
         });
 
+        helpers.checkIfExist(existe, 'El proveedor ya existe');
 
-        helpers.checkIfExist(existe, 'El tipo de descuento ya existe');
-
-        const tipodescuentoToUpdate = await NomTipoDescuento.findByPk(id);
-        await tipodescuentoToUpdate.update({
+        
+        const proveedorToUpdate = await NomProveedor.findByPk(id);
+        await proveedorToUpdate.update({
             nombre: nombre,
-            descuento: descuento
+            descripcion: descripcion,
+            telefono: telefono,
+            correo: correo,
+            sitioweb: sitioweb
         });
 
         resp.status(200).json();
@@ -102,14 +107,14 @@ module.exports.updateTipodescuento = async (req, resp, next) => {
     }
 }
 
-module.exports.deleteTipodescuento = async (req, resp, next) => {
+module.exports.deleteProveedor = async (req, resp, next) => {
     const {id} = req.body;
 
-    const deleted = await NomTipoDescuento.destroy({
+    const deleted = await NomProveedor.destroy({
         where: {
             id: id
         }
-    }); 
+    });
 
     if(deleted === 0){
         const err = Error('No encontrado');

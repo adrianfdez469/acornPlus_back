@@ -43,7 +43,9 @@ module.exports.addAlmacen = async (req, resp, next) => {
         // Buscando si exite un almacen con el misma nombre
         const existe = await NomAlmacen.findOne({
             where:{
-                nombre: nombre
+                nombre: {
+                    [Op.iLike]: nombre
+                }
             }
         });
         
@@ -74,7 +76,9 @@ module.exports.updateAlmacen = async (req, resp, next) => {
         const existe = await NomAlmacen.findOne({
             where: {
                 [Op.and]: {
-                    nombre: nombre,
+                    nombre: {
+                        [Op.iLike]: nombre
+                    },
                     id: {
                         [Op.ne] : id
                     }                    

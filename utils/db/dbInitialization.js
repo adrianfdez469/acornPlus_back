@@ -29,6 +29,8 @@ const populateDb = async () => {
             {id: 2002, name: 'Monedas', nameid: 'nom_moneda', parentid: 2000},
             {id: 2003, name: 'Almacenes', nameid: 'nom_almacen', parentid: 2000},
             {id: 2004, name: 'Tipo de descuentos', nameid: 'nom_tipodescuento', parentid: 2000},
+            {id: 2005, name: 'Unidad de medidas', nameid: 'nom_unidadmedida', parentid: 2000},
+            {id: 2006, name: 'Proveedores', nameid: 'nom_proveedor', parentid: 2000},
 
         {id: 3000, name: 'Configuracion', nameid: 'conf' }
 

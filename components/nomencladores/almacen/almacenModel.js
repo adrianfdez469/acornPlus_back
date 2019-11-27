@@ -13,10 +13,7 @@ NomAlmacen.init({
         }
     },
     descripcion: Sequelize.STRING    
-}, {sequelize, modelName: 'nom_almacen', name: {
-        singular: 'NomAlmacen',
-        plural: 'NomAlmacenes'
-    }
+}, {sequelize, modelName: 'nom_almacen', freezeTableName: true
 });
 
 module.exports = NomAlmacen;

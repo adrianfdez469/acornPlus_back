@@ -22,10 +22,7 @@ NomCategoria.init({
 }, {
     sequelize,
     modelName: 'nom_categoria',
-    name: {
-        singular: 'NomCategoria',
-        plural: 'NomCategoria'
-    }
+    freezeTableName: true
 });
 
 module.exports = NomCategoria;

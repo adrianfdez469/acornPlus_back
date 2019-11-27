@@ -4,10 +4,10 @@ const validateNombre = body('nombre').trim().isLength({
     max: 100, min: 3
 });
 
-const validateDescrption = body('descuento')
+const validateDescuento = body('descuento')
                 .isNumeric();
                 
                 
                 
 
-module.exports = [validateNombre, validateDescrption];
+module.exports = [validateNombre, validateDescuento];

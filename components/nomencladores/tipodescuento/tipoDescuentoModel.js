@@ -16,10 +16,7 @@ NomTipoDescuento.init({
         type: Sequelize.DECIMAL,
         defaultValue: 0
     }
-}, {sequelize, modelName: 'nom_tipodescuento', name: {
-        singular: 'NomTipodescuento',
-        plural: 'NomTipodescuentos'
-    }
+}, {sequelize, modelName: 'nom_tipodescuento', freezeTableName: true
 });
 
 module.exports = NomTipoDescuento;

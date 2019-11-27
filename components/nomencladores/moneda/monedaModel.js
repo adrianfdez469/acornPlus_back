@@ -24,10 +24,7 @@ NomMoneda.init({
             return Number.parseFloat(this.getDataValue('tasacambio')).toFixed(2);
         }
     }
-}, {sequelize, modelName: 'nom_moneda', name: {
-        singular: 'NomMoneda',
-        plural: 'NomMonedas'
-    }
+}, {sequelize, modelName: 'nom_moneda', freezeTableName: true
 })
 
 NomMoneda.quitarLaPrincipal = async () => {
