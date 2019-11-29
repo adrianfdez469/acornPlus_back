@@ -16,7 +16,8 @@ User.init({
 }, {
     sequelize,
     modelName: 'user',
-    paranoid: true
+    paranoid: true,
+    schema: 'mod_seguridad'
 });
 
 //User.sync({force: true});

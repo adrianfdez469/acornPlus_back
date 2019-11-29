@@ -16,7 +16,7 @@ NomTipoDescuento.init({
         type: Sequelize.DECIMAL,
         defaultValue: 0
     }
-}, {sequelize, modelName: 'nom_tipodescuento', freezeTableName: true
+}, {sequelize, modelName: 'nom_tipodescuento', freezeTableName: true, schema: 'mod_nomencladores'
 });
 
 module.exports = NomTipoDescuento;

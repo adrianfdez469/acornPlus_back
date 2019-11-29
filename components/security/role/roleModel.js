@@ -10,7 +10,7 @@ Rol.init({
     },
     description: Sequelize.STRING
 }, {
-    sequelize, modelName: 'rol'
+    sequelize, modelName: 'rol', schema: 'mod_seguridad'
 });
 
 //Rol.sync({force: true});

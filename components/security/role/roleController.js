@@ -14,7 +14,7 @@ module.exports.getActionsFromUser = async (req, resp, next) => {
             },
             include: [{
                 model: Resource,
-                as: 'RolResources'
+                as: 'RolResource'
             }]
         });
         
@@ -24,7 +24,7 @@ module.exports.getActionsFromUser = async (req, resp, next) => {
             throw error;
         }
 
-        const actions = [...rol.RolResources];
+        const actions = [...rol.RolResource];
         
 
         return resp.status(200).json({

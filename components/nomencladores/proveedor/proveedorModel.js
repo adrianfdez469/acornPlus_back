@@ -17,6 +17,6 @@ NomProveedor.init({
     correo: Sequelize.STRING,
     sitioweb: Sequelize.STRING
 
-}, {sequelize, modelName: 'nom_proveedor', freezeTableName: true})
+}, {sequelize, modelName: 'nom_proveedor', freezeTableName: true, schema: 'mod_nomencladores'})
 
 module.exports = NomProveedor;

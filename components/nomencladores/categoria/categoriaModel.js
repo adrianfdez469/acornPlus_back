@@ -22,7 +22,7 @@ NomCategoria.init({
 }, {
     sequelize,
     modelName: 'nom_categoria',
-    freezeTableName: true
+    freezeTableName: true, schema: 'mod_nomencladores'
 });
 
 module.exports = NomCategoria;

@@ -72,7 +72,8 @@ sequelize
     console.log('Connection has been established successfully.');
     dbInit({
       syncOptions: {
-        force: false
+        force: true,
+        
       }
     });
   })

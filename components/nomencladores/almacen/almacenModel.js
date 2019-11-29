@@ -13,7 +13,7 @@ NomAlmacen.init({
         }
     },
     descripcion: Sequelize.STRING    
-}, {sequelize, modelName: 'nom_almacen', freezeTableName: true
+}, {sequelize, modelName: 'nom_almacen', freezeTableName: true, schema: 'mod_nomencladores'
 });
 
 module.exports = NomAlmacen;

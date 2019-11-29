@@ -17,11 +17,13 @@ Resource.init({
     }
 }, {
     sequelize,
-    modelName: 'resource',
-    name: {
+    modelName: 'seg_resource',
+    freezeTableName: true,
+    /*name: {
         plural: 'Resources',
         singular: 'Resource'
-    }
+    }*/
+    schema: 'mod_seguridad'
 });
 
 

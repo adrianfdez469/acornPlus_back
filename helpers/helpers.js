@@ -115,7 +115,7 @@ module.exports.checkValidationResults = errors => {
  * Usado para verificar si el objeto pasado es un objeto valido, en ese caso se lanza un error.
  * @param existe Objeto que ha sido buscado previamente en base de datos.
  * @param pesimisticMsg Mensaje que se debe enviar al front en caso de error
- * @throws Lanza un error en caso de que el @param existe sea un objeto valido
+ * @throws Lanza un error en caso de que el parametro "existe" sea un objeto valido
  */
 
 module.exports.checkIfExist = (existe, pesimisticMsg) => {

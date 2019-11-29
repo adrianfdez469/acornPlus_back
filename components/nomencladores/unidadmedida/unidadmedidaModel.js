@@ -21,7 +21,7 @@ NomUnidadMedida.init({
 },{
     sequelize,
     tableName: 'nom_unidadmedida',
-    freezeTableName: true
+    freezeTableName: true, schema: 'mod_nomencladores'
 })
 
 module.exports = NomUnidadMedida;

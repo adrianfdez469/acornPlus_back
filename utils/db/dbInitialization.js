@@ -10,17 +10,26 @@ const setDbRelations = () => {
     Rol.hasMany(User);
     User.belongsTo(Rol);
     
-    Rol.belongsToMany(Resource, {as: 'RolResources', through: 'rolresourses'});
-    Resource.belongsToMany(Rol, {as: 'RolResources', through: 'rolresourses'});
+    Rol.belongsToMany(Resource, {as: 'RolResource', through: 'seg_rolresourse'});
+    Resource.belongsToMany(Rol, {as: 'RolResource', through: 'seg_rolresourse'});
 }
 
 const syncrhonizeDb = async options => {
-    await sequelize.sync(options);
+    try{
+        await sequelize.sync(options);
+        //await sequelize.sync({alter: true});
+    }catch (err){
+        await sequelize.dropAllSchemas();
+        await sequelize.createSchema('mod_seguridad');
+        await sequelize.createSchema('mod_nomencladores');
+        await sequelize.sync({force: true});
+    }
+    
 }
 
 const populateDb = async () => {
     const resources = await Resource.bulkCreate([
-        {id: 1000, name: 'Seguridad', nameid: 'seg' },
+        {id: 1000, name: 'mod_seguridad', nameid: 'seg' },
             {id: 1001, name: 'Getionar usuarios', nameid: 'nom_usuario', parentid: 1000},
             {id: 1002, name: 'Gestionar roles', nameid: 'nom_rol', parentid: 1000},
 
@@ -31,6 +40,7 @@ const populateDb = async () => {
             {id: 2004, name: 'Tipo de descuentos', nameid: 'nom_tipodescuento', parentid: 2000},
             {id: 2005, name: 'Unidad de medidas', nameid: 'nom_unidadmedida', parentid: 2000},
             {id: 2006, name: 'Proveedores', nameid: 'nom_proveedor', parentid: 2000},
+            {id: 2007, name: 'Clientes', nameid: 'nom_cliente', parentid: 2000},
 
         {id: 3000, name: 'Configuracion', nameid: 'conf' }
 

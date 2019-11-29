@@ -1,0 +1,6 @@
+{
+    "DB_NAME": "nombre_bd",
+    "DB_USER": "db_user",
+    "DB_PASS": "db_pass",
+    "DB_HOST": "host"
+}
