@@ -29,7 +29,7 @@ const syncrhonizeDb = async options => {
 
 const populateDb = async () => {
     const resources = await Resource.bulkCreate([
-        {id: 1000, name: 'mod_seguridad', nameid: 'seg' },
+        {id: 1000, name: 'Seguridad', nameid: 'seg' },
             {id: 1001, name: 'Getionar usuarios', nameid: 'nom_usuario', parentid: 1000},
             {id: 1002, name: 'Gestionar roles', nameid: 'nom_rol', parentid: 1000},
 
