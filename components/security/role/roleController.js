@@ -1,7 +1,9 @@
 const createError = require('http-errors');
+const Op = require('sequelize').Op;
 
 const Rol = require('./roleModel');
 const Resource = require('../resources/resoursesModel');
+const helper = require('../../../helpers/helpers');
 
 module.exports.getActionsFromUser = async (req, resp, next) => {
 
@@ -81,11 +83,30 @@ module.exports.addRole = async (req, resp, next) => {
 
 module.exports.getRoles = async (req, resp, next) => {
     
-    const roles = await Rol.findAll();
-
-    resp.status(200).json({
-        roles: roles
-    });
+    try{
+        const { filters, orders, pagination } = req.body;
+        const { start, limit } = pagination;
+    
+        const filtros = helper.getFiltros(filters, Rol.rawAttributes);
+        const arrOrders = helper.getOrder(orders, 'createdAt');
+        
+        const { rows, count } = await Rol.findAndCountAll({
+            limit: limit,
+            offset: start,
+            orders: arrOrders,
+            where: {
+                [Op.and]: filtros
+            }
+        });    
+           
+        resp.status(200).json({
+            rows: rows,
+            count: count
+        });
+        
+    } catch(err){
+        next(err);
+    }    
 }
 
 module.exports.addActionsToRol = async (req, resp, next) => {
