@@ -8,36 +8,38 @@ const User = require('../user/userModel');
 
 module.exports.IsAuthenticated = (req, resp, next) => {
     
-    const authHeader = req.get('Authorization');
+    try{
+        const authHeader = req.get('Authorization');
     
-    const token = authHeader.split(' ')[1];
-    if(!token){
-        const error = new Error('Not authenticated!');
-        error.statusCode = 401;
-        error.message = 'Por favor inicie sesión.';
-        throw error;
+        const token = authHeader.split(' ')[1];
+        if(!token){
+            const error = new Error('Not authenticated!');
+            error.statusCode = 401;
+            error.message = 'Por favor inicie sesión.';
+            throw error;
+        }
+        
+        
+        let decodedToken;
+        try {
+            decodedToken = jwt.verify(token, secrets.JWT_SECRET);
+        } catch(err) {
+            err.statusCode = 401;
+            err.message = 'Ha ocurrido un error interno';
+            throw err;
+        }
+    
+        if(!decodedToken){
+            const error = new Error('Not authenticated!');
+            error.statusCode = 401;
+            throw error;
+        }
+        
+        req.user = decodedToken;
+        next();
+    } catch (err){
+        next(err);
     }
-    
-    
-    let decodedToken;
-    try {
-        decodedToken = jwt.verify(token, secrets.JWT_SECRET);
-    } catch(err) {
-        console.log(err);
-        err.statusCode = 401;
-        err.message = 'Ha ocurrido un error interno';
-        throw err;
-    }
-
-    if(!decodedToken){
-        const error = new Error('Not authenticated!');
-        error.statusCode = 401;
-        throw error;
-    }
-    
-    req.user = decodedToken;
-    next();
-
 }
 
 
@@ -70,7 +72,7 @@ module.exports.Login = async (req, resp, next) => {
 
         const userObj = {
             userId: user.id,
-            username: user.name
+            username: user.name,
         }
 
         const segundosHora = 3600;

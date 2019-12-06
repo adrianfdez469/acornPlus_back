@@ -3,21 +3,25 @@ const Op = require('sequelize').Op;
 
 const Rol = require('./roleModel');
 const Resource = require('../resources/resoursesModel');
+const User = require('../user/userModel');
 const helper = require('../../../helpers/helpers');
 
 module.exports.getActionsFromUser = async (req, resp, next) => {
 
     try{
         const userData = req.user;
-    
+
         const rol = await Rol.findOne({
-            where: {
-                id: userData.userId
-            },
-            include: [{
+           include: [{
                 model: Resource,
                 as: 'RolResource'
-            }]
+            },{
+                model: User,
+                where: {
+                    id: userData.userId
+                }
+            }
+            ]
         });
         
         if(!rol){
@@ -37,7 +41,7 @@ module.exports.getActionsFromUser = async (req, resp, next) => {
 
     }catch(err){
         err.statusCode = 500;
-        throw err;
+        next(err);
     }
 }
 

@@ -83,32 +83,37 @@ module.exports.getCategorias = async (req, resp, next) => {
 
 module.exports.deleteCategoria = async (req, resp, next) => {
 
-    const id = req.body.id;
+    try{
+        const id = req.body.id;
 
-    await NomCategoria.update({
-        orden: Sequelize.literal('orden - 1')
-    }, {
-        where: {
-            orden: {
-                [Op.gt]: Sequelize.literal(`(SELECT orden FROM nom_categoria where id=${id})`)
+        await NomCategoria.update({
+            orden: Sequelize.literal('orden - 1')
+        }, {
+            where: {
+                orden: {
+                    [Op.gt]: Sequelize.literal(`(SELECT orden FROM mod_nomencladores.nom_categoria where id=${id})`)
+                }
             }
-        }
-    });
+        });
+        
+        const deleted = await NomCategoria.destroy({
+            where: {
+                id: id
+            }
+        });
     
-    const deleted = await NomCategoria.destroy({
-        where: {
-            id: id
+        if(deleted === 0){
+            const err = Error('No encontrado');
+            err.statusCode = 404;
+            throw err;
         }
-    });
-
-    if(deleted === 0){
-        const err = Error('No encontrado');
-        err.statusCode = 404;
-        throw err;
+    
+        resp.status(200).json();
+    
+    } catch (err) {
+        next(err);
     }
-
-    resp.status(200).json();
-
+    
 }
 
 module.exports.updateCategoria = async (req, resp, next) => {

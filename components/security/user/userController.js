@@ -12,7 +12,14 @@ module.exports.getUsers = async (req, resp, next) => {
         const {filters, orders, pagination} = req.body;
         const { start, limit } = pagination;
 
+        const rolFilter = (filters['rol.name']) ? {
+            name: {
+                [Op.iLike]: `%${filters['rol.name']}%`
+            }
+        } : null;
+
         const filtros = helpers.getFiltros(filters, User.rawAttributes);
+
         const arrOrder = helpers.getOrder(orders, 'createdAt');
 
         const {rows, count} = await User.findAndCountAll({
@@ -22,7 +29,8 @@ module.exports.getUsers = async (req, resp, next) => {
             raw: true,
             include: [{
                 model: Rol,
-                attributes: ['name']                         
+                attributes: ['name'],
+                where: rolFilter                
             }],
             offset: start,
             limit: limit,
@@ -43,7 +51,7 @@ module.exports.getUsers = async (req, resp, next) => {
         next(error);
     }
 }
-/*
+
 module.exports.addUser = async (req, resp, next) => {
     try{
 
@@ -68,7 +76,7 @@ module.exports.addUser = async (req, resp, next) => {
             rolId: rolId
         });
 
-        resp.status(200).json({
+        resp.status(201).json({
             user: user
         });
 
@@ -76,7 +84,7 @@ module.exports.addUser = async (req, resp, next) => {
         next(err);
     }
 }
-
+/*
 module.exports.updateUser = (req, resp, next) => {
     try {
         

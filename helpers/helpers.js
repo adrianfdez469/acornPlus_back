@@ -53,14 +53,15 @@ module.exports.getFiltros = (filters, attributes) => {
     
     const filtros = [];
     for (const key in filters) {
-        filtros.push(
-            {
-                [key]: getFiltro({
-                    campo: key,
-                    valor: filters[key]
-                })
-            }
-        );
+        if(key.search('.') < 0)
+            filtros.push(
+                {
+                    [key]: getFiltro({
+                        campo: key,
+                        valor: filters[key]
+                    })
+                }
+            );
     }
 
     return filtros;
