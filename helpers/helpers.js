@@ -52,8 +52,8 @@ module.exports.getFiltros = (filters, attributes) => {
     }
     
     const filtros = [];
-    for (const key in filters) {
-        if(key.search('.') < 0)
+    for (const key in filters) {   
+        if(!key.includes('.'))
             filtros.push(
                 {
                     [key]: getFiltro({
